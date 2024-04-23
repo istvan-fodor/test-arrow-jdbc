@@ -12,10 +12,12 @@ public class App {
             // Load the JDBC driver
             Class.forName("org.apache.arrow.driver.jdbc.ArrowFlightJdbcDriver");
 
-            String url = "jdbc:arrow-flight-sql://localhost:50051?useEncryption=1" +
-                    "&clientKey=test-tls/client1.key&clientCertificate=test-tls/client1.pem&tlsRootCerts=test-tls/ca.pem";
+            String url = "jdbc:arrow-flight-sql://localhost:50051?useEncryption=0";
 
-            url = "jdbc:arrow-flight-sql://localhost:50051?useEncryption=0";
+            if (System.getenv("USE_TLS") != null) {
+                url = "jdbc:arrow-flight-sql://localhost:50051?useEncryption=1" +
+                        "&clientKey=test-tls/client1.key&clientCertificate=test-tls/client1.pem&tlsRootCerts=test-tls/ca.pem";
+            }
 
             Properties p = new Properties();
             p.setProperty("user", "admin");
